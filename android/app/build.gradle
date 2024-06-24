@@ -93,6 +93,7 @@ dependencies {
 
 android {
     compileSdkVersion 34
+    namespace 'com.idea.zad'
     defaultConfig {
 
         minSdkVersion 22
