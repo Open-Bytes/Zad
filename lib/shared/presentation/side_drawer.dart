@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:zad/screens/settings/settings_screen.dart';
 import 'package:zad/shared/localization/localizations.dart';
 import 'package:zad/shared/presentation/navigate_to.dart';
 import 'package:zad/shared/presentation/navigator_pop.dart';
@@ -66,6 +67,18 @@ class SideDrawer extends StatelessWidget {
             onTap: () {
               pop();
               _showFavorites();
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.settings),
+            title: Text(
+              localizations.settings,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.right,
+            ),
+            onTap: () {
+              pop();
+              navigate(const SettingsScreen());
             },
           ),
           ListTile(
