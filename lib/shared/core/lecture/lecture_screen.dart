@@ -16,6 +16,7 @@ class LectureScreen extends StatefulWidget {
 class _LectureScreenState extends State<LectureScreen> {
   double _fontSize = 16.0;
   Color _fontColor = Colors.black;
+  Color _backgroundColor = Colors.white;
 
   @override
   void initState() {
@@ -28,26 +29,34 @@ class _LectureScreenState extends State<LectureScreen> {
     setState(() {
       _fontSize = prefs.getDouble('fontSize') ?? _fontSize;
       _fontColor = Color(prefs.getInt('fontColor') ?? _fontColor.value);
+      _backgroundColor =
+          Color(prefs.getInt('backgroundColor') ?? _backgroundColor.value);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          actions: [
-            Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: LectureOptionsSheet(lecture: widget.lecture),
-            ),
-          ],
-          backgroundColor: Colors.teal,
-          centerTitle: true,
-          title: Text(
-            widget.lecture.title,
+      appBar: AppBar(
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: LectureOptionsSheet(lecture: widget.lecture),
           ),
+        ],
+        backgroundColor: Colors.teal,
+        centerTitle: true,
+        title: Text(
+          widget.lecture.title,
         ),
-        body: screenView(context));
+      ),
+      body: Container(
+          decoration: BoxDecoration(
+            color: _backgroundColor,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: screenView(context)),
+    );
   }
 
   Widget screenView(BuildContext context) {

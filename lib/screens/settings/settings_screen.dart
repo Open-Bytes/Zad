@@ -33,7 +33,7 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   double _fontSize = 16.0;
   Color _fontColor = Colors.black;
-  Color _backgroundColor = Colors.black;
+  Color _backgroundColor = Colors.white;
 
   @override
   void initState() {
@@ -90,7 +90,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
-                color: Colors.teal,
+                color: Colors.black,
               ),
             ),
             onPressed: () {
@@ -122,12 +122,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const Spacer(),
-                    Text(
-                      textAlign: TextAlign.center,
-                      localizations.basmalah,
-                      style: TextStyle(
-                        fontSize: _fontSize,
-                        color: _fontColor,
+                    Container(
+                      decoration: BoxDecoration(
+                        color: _backgroundColor,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Text(
+                          textAlign: TextAlign.center,
+                          localizations.basmalah,
+                          style: TextStyle(
+                            fontSize: _fontSize,
+                            color: _fontColor,
+                          ),
+                        ),
                       ),
                     ),
                     const Spacer(),
