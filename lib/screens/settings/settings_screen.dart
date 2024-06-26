@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Settings Example',
+      title: 'Settings Screen',
       theme: ThemeData(
         primarySwatch: Colors.teal,
       ),
@@ -29,10 +29,11 @@ class SettingsScreen extends StatefulWidget {
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
 }
-// basmalah
+
 class _SettingsScreenState extends State<SettingsScreen> {
   double _fontSize = 16.0;
   Color _fontColor = Colors.black;
+  Color _backgroundColor = Colors.black;
 
   @override
   void initState() {
@@ -40,10 +41,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
     _loadSettings();
   }
 
-  Future<void> _saveSettings() async {
+  Future<void> _saveFontSize() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setDouble('fontSize', _fontSize);
-    await prefs.setInt('fontColor', _fontColor.value);
+  }
+
+  Future<void> _saveColor(String key, Color color) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt(key, color.value);
   }
 
   Future<void> _loadSettings() async {
@@ -51,14 +56,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
     setState(() {
       _fontSize = prefs.getDouble('fontSize') ?? _fontSize;
       _fontColor = Color(prefs.getInt('fontColor') ?? _fontColor.value);
+      _backgroundColor =
+          Color(prefs.getInt('backgroundColor') ?? _backgroundColor.value);
     });
   }
 
-  void changeColor(Color color) {
-    setState(() => _fontColor = color);
-  }
-
-  showColorPickerDialog() {
+  showColorPickerDialog(
+    Color color,
+    ValueChanged<Color> onColorChanged,
+  ) {
     showDialog(
       builder: (context) => AlertDialog(
         title: Text(
@@ -67,8 +73,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         content: SingleChildScrollView(
           child: ColorPicker(
-            pickerColor: _fontColor,
-            onColorChanged: changeColor,
+            pickerColor: color,
+            onColorChanged: onColorChanged,
             colorPickerWidth: 300,
             pickerAreaHeightPercent: 0.7,
             enableAlpha: true,
@@ -93,73 +99,156 @@ class _SettingsScreenState extends State<SettingsScreen> {
             },
           ),
         ],
-      ), context: context,
+      ),
+      context: context,
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.teal,
-        title: Text(localizations.settings),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              localizations.font_size,
-              style: TextStyle(
-                fontSize: _fontSize,
-                fontWeight: FontWeight.bold,
+        appBar: AppBar(
+          backgroundColor: Colors.teal,
+          title: Text(localizations.settings),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 100,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Spacer(),
+                    Text(
+                      textAlign: TextAlign.center,
+                      localizations.basmalah,
+                      style: TextStyle(
+                        fontSize: _fontSize,
+                        color: _fontColor,
+                      ),
+                    ),
+                    const Spacer(),
+                  ],
+                ),
               ),
-            ),
-            Slider(
-              value: _fontSize,
-              min: 10.0,
-              max: 30.0,
-              divisions: 30,
-              label: _fontSize.toStringAsFixed(0),
-              onChanged: (value) {
-                setState(() {
-                  _fontSize = value;
-                });
-              },
-            ),
-            const SizedBox(height: 16.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                TextButton(
-                  onPressed: showColorPickerDialog,
-                  child: Text(
-                    localizations.font_color,
-                    style: TextStyle(
-                      fontSize: _fontSize,
-                      color: Colors.black,
+              const SizedBox(
+                height: 16,
+              ),
+              Row(
+                children: [
+                  const Image(
+                    image: AssetImage('assets/images/ic_size.png'),
+                    height: 25,
+                    width: 25,
+                    fit: BoxFit.fill,
+                  ),
+                  const SizedBox(width: 10.0),
+                  Text(
+                    localizations.change_font_size_description,
+                    style: const TextStyle(
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                )
-              ],
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Slider(
+                value: _fontSize,
+                min: 10.0,
+                max: 30.0,
+                divisions: 30,
+                label: _fontSize.toStringAsFixed(0),
+                onChanged: (value) {
+                  setState(() {
+                    _fontSize = value;
+                  });
+                  Future.delayed(
+                      const Duration(milliseconds: 500), _saveFontSize);
+                },
+              ),
+              const SizedBox(height: 5.0),
+              Divider(
+                color: Colors.grey.withOpacity(0.5),
+                thickness: 1.0,
+              ),
+              const SizedBox(height: 16.0),
+              _colorPickerView(
+                localizations.change_font_color_description,
+                _fontColor,
+                (newColor) {
+                  setState(() => _fontColor = newColor);
+                  _saveColor('fontColor', newColor);
+                },
+              ),
+              const SizedBox(height: 25.0),
+              Divider(
+                color: Colors.grey.withOpacity(0.5),
+                thickness: 1.0,
+              ),
+              const SizedBox(height: 25.0),
+              _colorPickerView(
+                localizations.background_color,
+                _backgroundColor,
+                (newColor) {
+                  setState(() => _backgroundColor = newColor);
+                  _saveColor('backgroundColor', newColor);
+                },
+              ),
+            ],
+          ),
+        ));
+  }
+
+  // DRY
+  // Don't Repeat Yourself
+  Widget _colorPickerView(
+    String title,
+    Color color,
+    ValueChanged<Color> onColorChanged,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            const Image(
+              image: AssetImage('assets/images/ic_color.png'),
+              height: 25,
+              width: 25,
+              fit: BoxFit.fill,
+            ),
+            const SizedBox(width: 10.0),
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ],
         ),
-      ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 20.0, right: 20.0),
-        child: FloatingActionButton(
-          onPressed: () async {
-            await _saveSettings();
-            pop();
+        const SizedBox(height: 16.0),
+        GestureDetector(
+          onTap: () {
+            showColorPickerDialog(color, onColorChanged);
           },
-          child: Text(localizations.save),
-          backgroundColor: Colors.teal,
-          foregroundColor: Colors.black,
+          child: SizedBox(
+            height: 40,
+            child: Container(
+              decoration: BoxDecoration(
+                color: color,
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
 }
