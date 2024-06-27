@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zad/shared/presentation/controller/lectures_bloc.dart';
 
 import '../screens/lectures/lectures_screen.dart';
@@ -7,11 +8,16 @@ import '../shared/app/app.dart';
 import '../shared/data/models/section.dart';
 import '../shared/localization/localizations.dart';
 import '../shared/presentation/navigate_to.dart';
+import 'package:zad/screens/settings/settings_screen.dart';
 
-// ignore: must_be_immutable
-class SectionsScreen extends StatelessWidget {
-  SectionsScreen({Key? key}) : super(key: key);
+class SectionsScreen extends StatefulWidget {
+  const SectionsScreen({super.key});
 
+  @override
+  State<SectionsScreen> createState() => _SectionsScreenState();
+}
+
+class _SectionsScreenState extends State<SectionsScreen> {
   List<Section> sections = [
     Section(
       1,
@@ -74,6 +80,17 @@ class SectionsScreen extends StatelessWidget {
       Colors.indigo.shade300,
     ),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(
+      const Duration(seconds: 2),
+      () {
+        _showSettingsDialog(context);
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -166,4 +183,40 @@ class SectionsScreen extends StatelessWidget {
       title: section.title,
     ));
   }
+
+  Future<void> _showSettingsDialog(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    bool canShowSettingsDialog = prefs.getBool('canShowSettingsDialog') ?? true;
+
+    if (!canShowSettingsDialog) return;
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Text(localizations.settings_welcome_description),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                navigate(const SettingsScreen());
+                prefs.setBool('canShowSettingsDialog', false);
+              },
+              child: Text(localizations.go_to_settings),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                prefs.setBool('canShowSettingsDialog', false);
+              },
+              child: Text(localizations.thanks),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
 }
