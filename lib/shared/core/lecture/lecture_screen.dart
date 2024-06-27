@@ -10,13 +10,14 @@ class LectureScreen extends StatefulWidget {
   const LectureScreen(this.lecture, {super.key});
 
   @override
-  _LectureScreenState createState() => _LectureScreenState();
+  State<LectureScreen> createState() => _LectureScreenState();
 }
 
 class _LectureScreenState extends State<LectureScreen> {
   double _fontSize = 16.0;
   Color _fontColor = Colors.black;
   Color _backgroundColor = Colors.white;
+  String _fontFamily = "Cairo";
 
   @override
   void initState() {
@@ -31,6 +32,7 @@ class _LectureScreenState extends State<LectureScreen> {
       _fontColor = Color(prefs.getInt('fontColor') ?? _fontColor.value);
       _backgroundColor =
           Color(prefs.getInt('backgroundColor') ?? _backgroundColor.value);
+      _fontFamily = prefs.getString('fontFamily') ?? _fontFamily;
     });
   }
 
@@ -65,7 +67,11 @@ class _LectureScreenState extends State<LectureScreen> {
       child: SingleChildScrollView(
         child: SelectableText(
           widget.lecture.details,
-          style: TextStyle(fontSize: _fontSize, color: _fontColor),
+          style: TextStyle(
+            fontSize: _fontSize,
+            fontFamily: _fontFamily,
+            color: _fontColor,
+          ),
           toolbarOptions: const ToolbarOptions(
             copy: true,
           ),

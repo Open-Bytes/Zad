@@ -4,6 +4,8 @@ import 'package:zad/shared/localization/localizations.dart';
 import 'package:zad/shared/presentation/navigator_pop.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
+import 'font_bottom_sheet.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -34,6 +36,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   double _fontSize = 16.0;
   Color _fontColor = Colors.black;
   Color _backgroundColor = Colors.white;
+  String _fontFamily = "Cairo";
 
   @override
   void initState() {
@@ -58,6 +61,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       _fontColor = Color(prefs.getInt('fontColor') ?? _fontColor.value);
       _backgroundColor =
           Color(prefs.getInt('backgroundColor') ?? _backgroundColor.value);
+      _fontFamily = prefs.getString('fontFamily') ?? _fontFamily;
     });
   }
 
@@ -128,13 +132,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Padding(
-                        padding: EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.all(16.0),
                         child: Text(
                           textAlign: TextAlign.center,
                           localizations.basmalah,
                           style: TextStyle(
                             fontSize: _fontSize,
                             color: _fontColor,
+                            fontFamily: _fontFamily,
                           ),
                         ),
                       ),
@@ -164,9 +169,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 10,
-              ),
+              const SizedBox(height: 5.0),
               Slider(
                 value: _fontSize,
                 min: 10.0,
@@ -181,7 +184,35 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       const Duration(milliseconds: 500), _saveFontSize);
                 },
               ),
-              const SizedBox(height: 5.0),
+              Divider(
+                color: Colors.grey.withOpacity(0.5),
+                thickness: 1.0,
+              ),
+              const SizedBox(height: 16.0),
+              Row(
+                children: [
+                  const Image(
+                    image: AssetImage('assets/images/ic_size.png'),
+                    height: 25,
+                    width: 25,
+                    fit: BoxFit.fill,
+                  ),
+                  const SizedBox(width: 10.0),
+                  Text(
+                    localizations.buttom_sheet,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              FontBottomSheet(
+                onSelect: (font) {
+                  setState(() => _fontFamily = font);
+                },
+              ),
+              const SizedBox(height: 10.0),
               Divider(
                 color: Colors.grey.withOpacity(0.5),
                 thickness: 1.0,
@@ -214,8 +245,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ));
   }
 
-  // DRY
-  // Don't Repeat Yourself
   Widget _colorPickerView(
     String title,
     Color color,

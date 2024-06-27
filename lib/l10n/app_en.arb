@@ -40,5 +40,7 @@
   "basmalah": "بسم الله الرحمن الرحيم",
   "change_font_size_description": "يمكنك تغيير حجم الخط من هذا الخيار",
   "change_font_color_description": "يمكنك تغيير لون الخط من هذا الخيار",
-  "background_color": "يمكنك تغيير خلفية النص من هذا الخيار"
+  "background_color": "يمكنك تغيير خلفية النص من هذا الخيار",
+  "buttom_sheet": "يمكنك تغيير نوع الخط من هذا الخيار",
+  "font_type": "نوع الخط"
 }

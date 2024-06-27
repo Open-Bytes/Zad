@@ -28,7 +28,7 @@ class LectureOptionsSheet extends StatelessWidget {
   }
 
   void _showSheet(BuildContext context) {
-    showModalBottomSheet<void>(
+    showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
         return Container(
@@ -68,9 +68,7 @@ class LectureOptionsSheet extends StatelessWidget {
 
   void _addToFavorites(BuildContext context) async {
     lecture.isFavorite = !lecture.isFavorite;
-    await App.context
-        .read<LecturesBloc>()
-        .updateLecture(lecture);
+    await App.context.read<LecturesBloc>().updateLecture(lecture);
   }
 
   Widget _editButton(BuildContext context) {
