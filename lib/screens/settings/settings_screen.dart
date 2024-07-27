@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zad/main.dart';
 import 'package:zad/shared/localization/localizations.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
+import '../../shared/core/state_manager/app_state_manager.dart';
 import 'font_bottom_sheet.dart';
 
 void main() {
@@ -35,17 +37,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
   double _fontSize = 16.0;
   Color _fontColor = Colors.black;
   Color _backgroundColor = Colors.white;
-  String _fontFamily = "Cairo";
 
   @override
   void initState() {
     super.initState();
     _loadSettings();
-  }
-
-  Future<void> _saveFontSize() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setDouble('fontSize', _fontSize);
   }
 
   Future<void> _saveColor(String key, Color color) async {
@@ -60,7 +56,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       _fontColor = Color(prefs.getInt('fontColor') ?? _fontColor.value);
       _backgroundColor =
           Color(prefs.getInt('backgroundColor') ?? _backgroundColor.value);
-      _fontFamily = prefs.getString('fontFamily') ?? _fontFamily;
     });
   }
 
@@ -139,7 +134,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           style: TextStyle(
                             fontSize: _fontSize,
                             color: _fontColor,
-                            fontFamily: _fontFamily,
                           ),
                         ),
                       ),
@@ -177,11 +171,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 divisions: 30,
                 label: _fontSize.toStringAsFixed(0),
                 onChanged: (value) {
-                  setState(() {
-                    _fontSize = value;
-                  });
-                  Future.delayed(
-                      const Duration(milliseconds: 500), _saveFontSize);
                 },
               ),
               Divider(
@@ -209,7 +198,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               FontBottomSheet(
                 onSelect: (font) {
-                  setState(() => _fontFamily = font);
+                  AppStateManager.instance.loadFont();
                 },
               ),
               const SizedBox(height: 10.0),

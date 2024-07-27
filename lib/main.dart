@@ -5,9 +5,11 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:zad/sections/sections_screen.dart';
 import 'package:zad/shared/app/app.dart';
 import 'package:zad/shared/core/services/services_locator.dart';
+import 'package:zad/shared/core/state_manager/app_state_manager.dart';
 import 'package:zad/shared/data/database/zad_database.dart';
 import 'package:zad/shared/presentation/controller/lectures_bloc.dart';
 import 'package:zad/shared/presentation/side_drawer.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,6 +17,7 @@ void main() async {
   ServicesLocator().setup();
 
   await ZadDatabase().setup();
+  await AppStateManager.instance.setup();
 
   runApp(
     const MyApp(),
@@ -26,6 +29,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) => AppStateManager.instance,
+      child: Consumer<AppStateManager>(
+        builder: (context, languageProvider, child) {
+          final languageManager = Provider.of<AppStateManager>(context);
+          return _app(languageManager);
+        },
+      ),
+    );
+  }
+
+  Widget _app(AppStateManager appStateManager) {
     return BlocProvider(
         create: (BuildContext context) => locator<LecturesBloc>(),
         child: MaterialApp(
@@ -38,7 +53,7 @@ class MyApp extends StatelessWidget {
                 shadowColor: Colors.transparent,
               ),
             ),
-            fontFamily: 'Cairo',
+            fontFamily: appStateManager.fontFamily,
           ),
           navigatorKey: App.navigatorKey,
           home: const HomeScreen(),
@@ -73,3 +88,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+
+
+
+

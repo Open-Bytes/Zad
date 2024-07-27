@@ -17,7 +17,6 @@ class _LectureScreenState extends State<LectureScreen> {
   double _fontSize = 16.0;
   Color _fontColor = Colors.black;
   Color _backgroundColor = Colors.white;
-  String _fontFamily = "Cairo";
 
   @override
   void initState() {
@@ -32,7 +31,6 @@ class _LectureScreenState extends State<LectureScreen> {
       _fontColor = Color(prefs.getInt('fontColor') ?? _fontColor.value);
       _backgroundColor =
           Color(prefs.getInt('backgroundColor') ?? _backgroundColor.value);
-      _fontFamily = prefs.getString('fontFamily') ?? _fontFamily;
     });
   }
 
@@ -70,7 +68,6 @@ class _LectureScreenState extends State<LectureScreen> {
           widget.lecture.content,
           style: TextStyle(
             fontSize: _fontSize,
-            fontFamily: _fontFamily,
             color: _fontColor,
           ),
           toolbarOptions: const ToolbarOptions(

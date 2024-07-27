@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zad/main.dart';
 import 'package:zad/shared/localization/localizations.dart';
+
+import '../../shared/core/font/font_manager.dart';
 
 class FontBottomSheet extends StatefulWidget {
   final Function(String fontFamily)? onSelect;
@@ -73,22 +76,20 @@ class _FontBottomSheetState extends State<FontBottomSheet> {
               ? const Icon(Icons.check, color: Colors.green)
               : null,
           onTap: () {
-            setState(() {
-              _selectedFont = font;
-            });
-            _saveFont();
-            widget.onSelect!(_selectedFont!.family);
-            Navigator.pop(context);
+            _saveFont(font);
           },
         );
       },
     );
   }
 
-  Future<void> _saveFont() async {
-    if (_selectedFont == null) return;
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('fontFamily', _selectedFont!.family);
+  Future<void> _saveFont(FontItem font) async {
+    setState(() {
+      _selectedFont = font;
+    });
+    await FontManager.instance.save(_selectedFont!.family);
+    Navigator.pop(context);
+    widget.onSelect!(_selectedFont!.family);
   }
 }
 
