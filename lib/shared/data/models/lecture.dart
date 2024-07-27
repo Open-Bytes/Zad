@@ -7,6 +7,10 @@ class Lecture {
   late int categoryId;
   late bool isFavorite;
 
+  String get content {
+    return replaceExcessNewlines(details);
+  }
+
   Lecture({
     required this.id,
     required this.title,
@@ -35,5 +39,9 @@ class Lecture {
 
   String contentWithoutLines() {
     return details.replaceAll("\n", " ");
+  }
+
+  String replaceExcessNewlines(String input) {
+    return input.replaceAll(RegExp(r'\n{3,}'), '\n');
   }
 }

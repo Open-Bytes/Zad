@@ -67,7 +67,7 @@ class _LectureScreenState extends State<LectureScreen> {
       padding: const EdgeInsets.all(20.0),
       child: SingleChildScrollView(
         child: SelectableText(
-          widget.lecture.details,
+          widget.lecture.content,
           style: TextStyle(
             fontSize: _fontSize,
             fontFamily: _fontFamily,
