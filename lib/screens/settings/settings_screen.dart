@@ -171,6 +171,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 divisions: 30,
                 label: _fontSize.toStringAsFixed(0),
                 onChanged: (value) {
+                  setState(() {
+                    _fontSize = value;
+                  });
+                  Future.delayed(
+                      const Duration(milliseconds: 500), _saveFontSize);
                 },
               ),
               Divider(
@@ -232,6 +237,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ],
           ),
         ));
+  }
+
+  Future<void> _saveFontSize() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setDouble('fontSize', _fontSize);
   }
 
   Widget _colorPickerView(
