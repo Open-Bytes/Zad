@@ -16,6 +16,7 @@ class SearchScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        foregroundColor: Colors.white,
         backgroundColor: Colors.teal,
         centerTitle: true,
         title: Text(localizations.drawer_titleM),

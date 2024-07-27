@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zad/shared/localization/localizations.dart';
-import 'package:zad/shared/presentation/navigator_pop.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 import 'font_bottom_sheet.dart';
@@ -112,6 +111,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          foregroundColor: Colors.white,
           backgroundColor: Colors.teal,
           title: Text(localizations.settings),
         ),

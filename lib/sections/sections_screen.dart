@@ -217,6 +217,4 @@ class _SectionsScreenState extends State<SectionsScreen> {
       },
     );
   }
-
-
 }

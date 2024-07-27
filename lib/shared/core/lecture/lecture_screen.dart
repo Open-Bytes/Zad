@@ -47,6 +47,7 @@ class _LectureScreenState extends State<LectureScreen> {
           ),
         ],
         backgroundColor: Colors.teal,
+        foregroundColor: Colors.white,
         centerTitle: true,
         title: Text(
           widget.lecture.title,

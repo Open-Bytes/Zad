@@ -20,6 +20,7 @@ class LecturesScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.teal,
+        foregroundColor: Colors.white,
         centerTitle: true,
         title: Text(title),
       ),

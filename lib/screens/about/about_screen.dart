@@ -33,6 +33,7 @@ class _AboutScreenState extends State<AboutScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        foregroundColor: Colors.white,
         backgroundColor: Colors.teal,
         centerTitle: true,
         title: Text(localizations.drawer_titleW),
@@ -212,7 +213,7 @@ class _AboutScreenState extends State<AboutScreen> {
   void _sendEmail(String emailAddress) async {
     final Uri emailLaunchUri = Uri(
         scheme: 'mailto',
-        path: 'najyelseady@gmail.com',
+        path: 'ideasoftwaretech@gmail.com',
         queryParameters: {'subject': ''});
 
     AppUrl.launchUri(emailLaunchUri);

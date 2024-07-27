@@ -6,7 +6,6 @@ import 'package:zad/sections/sections_screen.dart';
 import 'package:zad/shared/app/app.dart';
 import 'package:zad/shared/core/services/services_locator.dart';
 import 'package:zad/shared/data/database/zad_database.dart';
-import 'package:zad/shared/localization/localizations.dart';
 import 'package:zad/shared/presentation/controller/lectures_bloc.dart';
 import 'package:zad/shared/presentation/side_drawer.dart';
 
@@ -44,7 +43,7 @@ class MyApp extends StatelessWidget {
           navigatorKey: App.navigatorKey,
           home: const HomeScreen(),
           debugShowCheckedModeBanner: false,
-          localizationsDelegates:  const [
+          localizationsDelegates: const [
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
@@ -67,9 +66,10 @@ class HomeScreen extends StatelessWidget {
         centerTitle: true,
         title: Text(AppLocalizations.of(context)!.title),
         backgroundColor: Colors.teal,
+        foregroundColor: Colors.white,
       ),
       drawer: const SideDrawer(),
-      body: SectionsScreen(),
+      body: const SectionsScreen(),
     );
   }
 }
