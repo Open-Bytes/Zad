@@ -72,15 +72,15 @@ class LecturesScreen extends StatelessWidget {
                     item.title,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
-                      color: Colors.black54,
-                      fontSize: 20.0,
+                      color: Colors.teal,
+                      fontSize: 24.0,
                     ),
                   ),
                   const SizedBox(height: 30,),
                   Text(
                     style: const TextStyle(
-                      color: Colors.black45,
-                      fontSize: 15.0,
+                      color: Colors.black87,
+                      fontSize: 16.0,
                     ),
                     item.contentWithoutLines(),
                     maxLines: 5,
