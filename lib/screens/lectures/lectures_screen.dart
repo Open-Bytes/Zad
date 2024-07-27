@@ -60,12 +60,14 @@ class LecturesScreen extends StatelessWidget {
       },
       child: Container(
         alignment: Alignment.bottomRight,
-        child: Row(
+        child: Stack(
+          alignment: Alignment.topLeft,
           children: [
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const SizedBox(height: 10,),
                   Text(
                     item.title,
                     textAlign: TextAlign.center,
@@ -74,19 +76,17 @@ class LecturesScreen extends StatelessWidget {
                       fontSize: 20.0,
                     ),
                   ),
+                  const SizedBox(height: 30,),
                   Text(
                     style: const TextStyle(
                       color: Colors.black45,
-                      fontSize: 13.0,
+                      fontSize: 15.0,
                     ),
                     item.contentWithoutLines(),
                     maxLines: 5,
                   )
                 ],
               ),
-            ),
-            const SizedBox(
-              width: 5.0,
             ),
             LectureOptionsSheet(lecture: item),
           ],

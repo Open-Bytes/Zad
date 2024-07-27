@@ -18,8 +18,13 @@ class LectureOptionsSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      child: const Icon(
-        Icons.more_vert_outlined,
+      child: const SizedBox(
+        width: 20,
+        height: 10,
+        child: Icon(
+          Icons.more_vert_outlined,
+          color: Colors.teal,
+        ),
       ),
       onPressed: () {
         _showSheet(context);
