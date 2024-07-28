@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:zad/shared/localization/localizations.dart';
 
 import '../../shared/core/app_url.dart';
@@ -58,9 +59,7 @@ class _AboutScreenState extends State<AboutScreen> {
                     _rateButton(context),
                   ],
                 ),
-                const SizedBox(
-                  height: 30,
-                ),
+                const SizedBox(height: 30),
                 Row(
                   children: [
                     _myApps(context),
@@ -70,9 +69,7 @@ class _AboutScreenState extends State<AboutScreen> {
                     _sendmail(context),
                   ],
                 ),
-                const SizedBox(
-                  height: 30,
-                ),
+                const SizedBox(height: 30),
                 Row(
                   children: [
                     _twitter(context),
@@ -82,6 +79,8 @@ class _AboutScreenState extends State<AboutScreen> {
                     _faceBook(context),
                   ],
                 ),
+                const SizedBox(height: 30),
+                _gitHubText(),
               ],
             )
           ],
@@ -92,6 +91,26 @@ class _AboutScreenState extends State<AboutScreen> {
 
   Future<String> _appVersion() async {
     return await AppPackageInfo.version();
+  }
+
+  Widget _gitHubText() {
+    const en = 'The app is open source, for the source code click here.';
+    const ar = 'التطبيق مفتوح المصدر، اضغط هنا للاطلاع على الكود.';
+    const url = 'https://github.com/Open-Bytes/Zad';
+    return InkWell(
+      onTap: () {
+        // Open the GitHub URL when the text is tapped
+        launchUrl(Uri.parse(url));
+      },
+      child: const Text(
+        '$ar\n$en',
+        style: TextStyle(
+          fontSize: 20,
+          color: Colors.blue,
+          decoration: TextDecoration.underline,
+        ),
+      ),
+    );
   }
 
   Widget _shareButton(BuildContext context) {
