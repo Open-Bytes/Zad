@@ -89,10 +89,6 @@ class _AboutScreenState extends State<AboutScreen> {
     );
   }
 
-  Future<String> _appVersion() async {
-    return await AppPackageInfo.version();
-  }
-
   Widget _gitHubText() {
     const en = 'The app is open source, for the source code click here.';
     const ar = 'التطبيق مفتوح المصدر، اضغط هنا للاطلاع على الكود.';
