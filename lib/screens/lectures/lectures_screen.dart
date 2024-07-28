@@ -67,7 +67,9 @@ class LecturesScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 10,),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   Text(
                     item.title,
                     textAlign: TextAlign.center,
@@ -76,7 +78,9 @@ class LecturesScreen extends StatelessWidget {
                       fontSize: 24.0,
                     ),
                   ),
-                  const SizedBox(height: 30,),
+                  const SizedBox(
+                    height: 30,
+                  ),
                   Text(
                     style: const TextStyle(
                       color: Colors.black87,
