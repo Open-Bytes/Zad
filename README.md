@@ -23,6 +23,7 @@ Additionally, clean code principles have been applied to ensure maintainability 
 - [ ] Lecture details screen.
 - [ ] Favorites screen.
 - [ ] About screen.
+- [ ] Settings screen
 
 ## :clap: Contribution
 
